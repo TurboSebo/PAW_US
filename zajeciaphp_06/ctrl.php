@@ -1,0 +1,33 @@
+<?php
+require_once ('config.php');
+require_once ('klasy/KredytForm.class.php');
+require_once ('klasy/KredytWynik.class.php');
+require_once ('klasy/KredytKontroler.class.php');
+require_once('klasy/Logowanie.class.php');
+$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'home';
+if (isset($_SESSION['zalogowany'])) {
+ $action = 'calculate';   
+}else{
+    $action='home';
+}
+
+switch ($action) {
+    case 'home':
+        include 'main.php';
+        echo 'domyslne';
+        break;
+    case 'calculate':
+        $ctrl = new klasy\KredytKontroler();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
+            $ctrl->process();
+        }
+        
+        include 'raty.php';
+        break;
+    default:
+
+        break;
+}
+echo 'ctrl.php';
+?>
+
